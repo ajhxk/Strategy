@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="./src/Strategy.js"></script>
+<script>
+    (function () {
+
+        var strategy = new Strategy();
+
+        strategy.addStrategy('minLength', function (value, length, ret) {
+            console.log(this);
+            if (value.length < length) {
+                return ret;
+            }
+        });
+
+        strategy.addStrategy('noA', function (value, ret) {
+            console.log(this);
+            if (-1 !== value.indexOf('A')) {
+                return ret;
+            }
+        })
+
+        strategy.addRule([
+            {strategy: 'minLength:6', ret: 'min length is 6'},
+            {strategy: 'noA', ret: 'exist A'}
+        ]);
+
+        /*
+         strategy.addRule({strategy: 'noA', ret: 'exist A'});
+         strategy.addRule({strategy: 'minLength:6', ret: 'min length is 6'});
+         */
+
+        var tt = strategy.execute(
+            function getValue() {
+            return 'AAAAAAAA';
+//                return 'a';
+            },
+            function getContext() {
+                return {a:1};
+            }
+        );
+
+        console.log(tt);
+    })();
+</script>
+</body>
+</html>
